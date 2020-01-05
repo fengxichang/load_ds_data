@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-# Created on 2020-01-01 20:47:33
-# Project: Load_DS_data
-# 从ds足球爬取联赛数据
+# Created on 2020-01-05 13:12:52
+# Project: ds_load_team
+# 爬取ds足球球队数据
 
 from pyspider.libs.base_handler import *
 import datetime
@@ -54,15 +54,15 @@ def random_agent():
     return random.choice(user_agent_list)
 
 #生成随机请求头
-def gen_headers():
-    return { 
-        'User-Agent': random_agent(),
+def get_headers():
+    return {
+        "User-Agent": random_agent(),
         "Host": "www.dszuqiu.com",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0,image/webp,*/*;q=0.8",
         "Accept-Encoding": "gzip, deflate, sdch, br",
         "Accept-Language": "zh-CN, zh; q=0.8, en; q=0.6",
+    
     }
-
 
 def random_bid():
     #return {'bid': 'MC2U0Nf8TdZ'}
@@ -75,42 +75,50 @@ class Handler(BaseHandler):
     }
     
   
-    def on_start(self):
-        self.crawl('https://www.dszuqiu.com/data', callback=self.index_page, validate_cert=False, headers=gen_headers(), cookies=random_bid())
+    def on_start(self):    
+        self.crawl('https://www.dszuqiu.com', callback=self.index_page, validate_cert=False, headers=get_headers(), cookies=random_bid())
 
    
     def index_page(self, response):
-        continent_list = ['panel2-0','panel2-1','panel2-2','panel2-3','panel2-4','panel2-5']
-        for id in continent_list:
-            for li in response.doc('section[id='+id+']').find('ul[class="dataListCon2"]').items('li'):
-                href = li.find('a').attr('href') 
-                self.crawl(href, callback=self.detail_page, validate_cert=False, headers=gen_headers(), cookies=random_bid())
+        team_id_list = range(909,39272)
+        
+        for team_id in team_id_list: 
+            self.crawl('www.dszuqiu.com/team/'+ str(team_id), callback=self.detail_page, validate_cert=False, headers=get_headers(), cookies=random_bid())
+            
             
 
     def detail_page(self, response):
-        h1 = response.doc('h1[class="titleL1 BB0"]')
-        namestr = h1.text()[3:].split('，')
+        team_info = response.doc('div[class="teamInfo"]')
+        h1 = team_info.find('h1').text()
+        namestr = h1.split('/')
         
-        league_id = response.url[8:].split('/')[-1]
-        name = namestr[0]
-        alias = namestr[1]
-        desc = response.doc('p[class="f14"]').text()
-        league_type = h1.text()[0:2]
+        team_id = response.url[8:].split('/')[-1]
+        en_name = namestr[1]
+        cn_name = namestr[0]
+        country = team_info.find('p').eq(0).find('span[class="teamInfoContent"]').text()
         
-        league_data = {
-            "id": league_id,
-            "name": name,
-            "alias": alias,
-            "desc": desc,
-            "type": league_type
+        leagues_id = []
+        leagues_id_info = team_info.find('p').eq(1).find('span[class="teamInfoContent"]').items('a')
+        
+        for a in leagues_id_info:
+            href = a.attr('href')
+            league_id = href.split('/')[-1]
+            leagues_id.append(league_id)
+        
+        team_data = {
+            "id": team_id,
+            "en_name": en_name,
+            "cn_name": cn_name,
+            "country": country,
+            "leagues_id": '.'.join(leagues_id)
         }
         
-        #每次请求后随机休眠3-8秒
-        sleep_time = random.randint(3,8)
+        #每次请求后随机休眠1-5秒
+        sleep_time = random.randint(1,5)
         time.sleep(sleep_time)
         
-        insert_response = requests.post("http://local.ds.football/api/league/store", league_data)
+        insert_response = requests.post("http://local.ds.football/api/team/store", team_data)
         
-        league_data.update(status=json.loads(insert_response))
+        team_data.update(status=json.loads(insert_response.content))
 
-        return league_data
+        return team_data

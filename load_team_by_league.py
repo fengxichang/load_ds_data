@@ -74,53 +74,35 @@ class Handler(BaseHandler):
        'proxy':"HZ66310Z7I39EY4P:1CCD8C4876D5635C@http-pro.abuyun.com:9010"
     }
     
-  
     def on_start(self):    
         self.crawl('https://www.dszuqiu.com', callback=self.index_page, validate_cert=False, headers=get_headers(), cookies=random_bid())
 
-   
     def index_page(self, response):
-        team_id_list = range(909,39272)
-
-        for team_id in team_id_list:
-            test_query = requests.get('https://www.dszuqiu.com/team/'+ str(team_id))
-            if test_query.status_code==200:
-                self.crawl('www.dszuqiu.com/team/'+ str(team_id), callback=self.detail_page, validate_cert=False, headers=get_headers(), cookies=random_bid())
+        league_list_res = requests.get('http://local.ds.football/api/league/getList')
+        
+        league_list = json.loads(league_list_res.content)
+        
+        for league_id in league_list:
+            self.crawl('www.dszuqiu.com/league/'+ str(league_id), callback=self.detail_page, validate_cert=False, headers=get_headers(), cookies=random_bid())
             
             
 
     def detail_page(self, response):
-        team_info = response.doc('div[class="teamInfo"]')
-        h1 = team_info.find('h1').text()
-        namestr = h1.split('/')
         
-        team_id = response.url[8:].split('/')[-1]
-        en_name = namestr[1]
-        cn_name = namestr[0]
-        country = team_info.find('p').eq(0).find('span[class="teamInfoContent"]').text()
+        if not response.doc('table[class="responsive MB0 live-list-table"]'):
+            return {response.url:None}
         
-        leagues_id = []
-        leagues_id_info = team_info.find('p').eq(1).find('span[class="teamInfoContent"]').items('a')
+        result = {}
         
-        for a in leagues_id_info:
-            href = a.attr('href')
-            league_id = href.split('/')[-1]
-            leagues_id.append(league_id)
+        for tr in response.doc('table[class="responsive MB0 live-list-table"]').find('tbody').items('tr'):
+            cn_name = tr.children('td').eq(2).children('a').text()
+            team_id = tr.children('td').eq(2).children('a').attr('href').split('/')[-1]
+            team_data = {
+                "id": team_id,
+                "cn_name": cn_name
+            }
+            
+            insert_response = requests.post("http://local.ds.football/api/team/store", team_data)
+            result.update({team_id:json.loads(insert_response.content)})
         
-        team_data = {
-            "id": team_id,
-            "en_name": en_name,
-            "cn_name": cn_name,
-            "country": country,
-            "leagues_id": '.'.join(leagues_id)
-        }
-        
-        #每次请求后随机休眠1-5秒
-        sleep_time = random.randint(1,3)
-        time.sleep(sleep_time)
-        
-        insert_response = requests.post("http://local.ds.football/api/team/store", team_data)
-        
-        team_data.update(status=json.loads(insert_response.content))
-
-        return team_data
+        return result

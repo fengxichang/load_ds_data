@@ -63,12 +63,13 @@ def get_headers():
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0,image/webp,*/*;q=0.8",
         "Accept-Encoding": "gzip, deflate, sdch, br",
         "Accept-Language": "zh-CN, zh; q=0.8, en; q=0.6",
+        'Content-Type': 'application/json'
     }
 
 
 class Handler(BaseHandler):
     crawl_config = {
-        #'proxy':"HZ66310Z7I39EY4P:1CCD8C4876D5635C@http-pro.abuyun.com:9010"
+        'proxy':"HZ66310Z7I39EY4P:1CCD8C4876D5635C@http-pro.abuyun.com:9010"
     }
     
     
@@ -77,8 +78,8 @@ class Handler(BaseHandler):
 
     
     def index_page(self, response):
-        start = "2018-01-01"
-        end = "2018-12-31"
+        start = "2019-01-01"
+        end = "2019-12-31"
         
         dateStart = datetime.datetime.strptime(start,"%Y-%m-%d")
         dateEnd = datetime.datetime.strptime(end, "%Y-%m-%d")
@@ -90,7 +91,7 @@ class Handler(BaseHandler):
     @config(priority=2)
     def detail_page(self, response):
         result = {}
-        
+        data_list = []
         for tr in response.doc("div[id='diary_info']").find("table[class='live-list-table diary-table'] > tbody").items("tr"):
             match_id = tr.children("td").eq(8).find("div[class='statusListWrapper']").children("a").attr("href").split("/")[-1]
             league_id = tr.children("td").eq(0).children("a").attr("href").split("/")[-1]
@@ -114,9 +115,10 @@ class Handler(BaseHandler):
                 "match_date": match_date 
             }
             
-            insert_res = requests.post("http://local.ds.football/api/match/store", match_data)
+            data_list.append(match_data)
+        
+        insert_res = requests.post("http://local.ds.football/api/match/store", data={"data":json.dumps(data_list)}) 
+           
+        return { match_date: json.loads(insert_res.content) }
             
-            result.update({match_id:json.loads(insert_res.content)})
-            
-        return result
         

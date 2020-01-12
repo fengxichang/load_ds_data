@@ -78,7 +78,7 @@ class Handler(BaseHandler):
     
     def index_page(self, response):
         start = "2018-01-01"
-        end = "2018-01-05"
+        end = "2018-12-31"
         
         dateStart = datetime.datetime.strptime(start,"%Y-%m-%d")
         dateEnd = datetime.datetime.strptime(end, "%Y-%m-%d")
@@ -114,7 +114,7 @@ class Handler(BaseHandler):
                 "match_date": match_date 
             }
             
-            insert_res = requests.post("http://local.ds.football/api/team/store", match_data)
+            insert_res = requests.post("http://local.ds.football/api/match/store", match_data)
             
             result.update({match_id:json.loads(insert_res.content)})
             

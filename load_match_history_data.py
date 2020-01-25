@@ -102,9 +102,11 @@ class Handler(BaseHandler):
   
     @config(priority=2)
     def detail_page(self, response):
-        match_history_data = []
+        home_match_history_data = {}
+        visit_match_history_data = {}
         histroy_against_id = []
-        lately_match_id = []
+        home_lately_match_id = []
+        visit_lately_match_id = []
         
         match_id = response.url[8:].split('/')[-1]
 
@@ -123,9 +125,52 @@ class Handler(BaseHandler):
                 #比赛历史数据
                 for tr in div.children("div[id='history1']").find("tbody").items("tr"):
                         #主队最近比赛
+                        home_lately_match_id.append(tr.children("td").eq(11).children("a").attr("href").split("/")[-1])
 
                 for tr in div.children("div[id='history2']").find("tbody").items("tr"):
-                        #客队最近比赛           
+                        #客队最近比赛
+                        visit_lately_match_id.append(tr.children("td").eq(11).children("a").attr("href").split("/")[-1])
+
+                tbody = div.children("div[id='history_table']").children("tbody")
+
+                #主队历史比赛数据
+                home_match_history_data = {
+                    "match_id": match_id,
+                    "team_id": response.doc("h3[class='analysisTeamName red-color']").children("a").attr("href").split("/")[-1],
+                    "lately": 6,
+                    "type": 1,
+                    "only_this_league": 0,
+                    "goal_halt": tbody.children("tr").eq(0).children("td").eq(2).text().split("/")[0],
+                    "goal_full": tbody.children("tr").eq(0).children("td").eq(2).text().split("/")[-1],
+                    "concede_half": tbody.children("tr").eq(0).children("td").eq(3).text().split("/")[0],
+                    "concede_full": tbody.children("tr").eq(0).children("td").eq(3).text().split("/")[-1],
+                    "big_rate": tbody.children("tr").eq(0).children("td").eq(4).text(),
+                    "win_position_rate": tbody.children("tr").eq(0).children("td").eq(5).text(),
+                    "win_rate": tbody.children("tr").eq(0).children("td").eq(6).text(),
+                    "goal_difference": tbody.children("tr").eq(0).children("td").eq(7).text(),
+                    "total_goal": tbody.children("tr").eq(1).children("td").eq(1).text(),
+                    "bsp_half": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[0],
+                    "bsp_full": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[-1],
+                }
+
+                visit_match_history_data = {
+                    "match_id": match_id,
+                    "team_id": response.doc("h3[class='analysisTeamName blue-color']").children("a").attr("href").split("/")[-1],
+                    "lately": 6,
+                    "type": 0,
+                    "only_this_league": 0,
+                    "goal_halt": tbody.children("tr").eq(2).children("td").eq(2).text().split("/")[0],
+                    "goal_full": tbody.children("tr").eq(2).children("td").eq(2).text().split("/")[-1],
+                    "concede_half": tbody.children("tr").eq(2).children("td").eq(3).text().split("/")[0],
+                    "concede_full": tbody.children("tr").eq(2).children("td").eq(3).text().split("/")[-1],
+                    "big_rate": tbody.children("tr").eq(2).children("td").eq(4).text(),
+                    "win_position_rate": tbody.children("tr").eq(2).children("td").eq(5).text(),
+                    "win_rate": tbody.children("tr").eq(2).children("td").eq(6).text(),
+                    "goal_difference": tbody.children("tr").eq(2).children("td").eq(7).text(),
+                    "total_goal": tbody.children("tr").eq(3).children("td").eq(1).text(),
+                    "bsp_half": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[0],
+                    "bsp_full": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[-1],
+                }
 
 
         #大小球半场

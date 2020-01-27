@@ -102,8 +102,7 @@ class Handler(BaseHandler):
   
     @config(priority=2)
     def detail_page(self, response):
-        home_match_history_data = []
-        visit_match_history_data = []
+        match_history_data = []
         history_against_id = []
         home_lately_match_id = []
         visit_lately_match_id = []
@@ -153,7 +152,7 @@ class Handler(BaseHandler):
                     "bsp_full": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[-1],
                 }
 
-                home_match_history_data.append(home_match_history_data_tmp)
+                match_history_data.append(home_match_history_data_tmp)
 
                 #客队历史比赛数据
                 visit_match_history_data_tmp = {
@@ -175,13 +174,12 @@ class Handler(BaseHandler):
                     "bsp_full": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[-1],
                 }
 
-                visit_match_history_data.append(visit_match_history_data_tmp)
+                match_history_data.append(visit_match_history_data_tmp)
 
         #要保存的数据
         post_data = {
             "match_id": match_id,
-            "home_match_history_data": json.dumps(home_match_history_data),
-            "visit_match_history_data": json.dumps(visit_match_history_data),
+            "match_history_data": json.dumps(match_history_data),
             "history_against_id": json.dumps(history_against_id),
             "home_lately_match_id": json.dumps(home_lately_match_id),
             "visit_lately_match_id": json.dumps(visit_lately_match_id)

@@ -102,13 +102,13 @@ class Handler(BaseHandler):
   
     @config(priority=2)
     def detail_page(self, response):
-        home_match_history_data = {}
-        visit_match_history_data = {}
-        histroy_against_id = []
+        home_match_history_data = []
+        visit_match_history_data = []
+        history_against_id = []
         home_lately_match_id = []
         visit_lately_match_id = []
         
-        match_id = response.url[8:].split('/')[-1]
+        c = response.url[8:].split('/')[-1]
 
         divs = response.doc("div[class='small-12 medium-12 columns']").items("div[class='panel panel-l']")
         print(len(divs))
@@ -118,7 +118,7 @@ class Handler(BaseHandler):
 
                 #双方交战历史记录
                 for tr in div.children("tbody").items("tr"):
-                    histroy_against_id.append(tr.children("td").eq(10).children("a").attr("href").split("/")[-1])
+                    history_against_id.append(tr.children("td").eq(10).children("a").attr("href").split("/")[-1])
 
             elif div.children("div[class='panel-heading']").find("h3").text()=="双方历史比赛统计":
                 
@@ -134,7 +134,7 @@ class Handler(BaseHandler):
                 tbody = div.children("div[id='history_table']").children("tbody")
 
                 #主队历史比赛数据
-                home_match_history_data = {
+                home_match_history_data_tmp = {
                     "match_id": match_id,
                     "team_id": response.doc("h3[class='analysisTeamName red-color']").children("a").attr("href").split("/")[-1],
                     "lately": 6,
@@ -153,8 +153,10 @@ class Handler(BaseHandler):
                     "bsp_full": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[-1],
                 }
 
+                home_match_history_data.append(home_match_history_data_tmp)
+
                 #客队历史比赛数据
-                visit_match_history_data = {
+                visit_match_history_data_tmp = {
                     "match_id": match_id,
                     "team_id": response.doc("h3[class='analysisTeamName blue-color']").children("a").attr("href").split("/")[-1],
                     "lately": 6,
@@ -173,41 +175,21 @@ class Handler(BaseHandler):
                     "bsp_full": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[-1],
                 }
 
-
-        #大小球半场
-        for tr in response.doc("div[class='small-4 columns tableCol3in1 daxiao']").find("table[class='responsive half'] > tbody").items("tr"):
-            match_time = tr.children("td").eq(0).text()[:-1]
-            score = tr.children("td").eq(1).text()
-            big = tr.children("td").eq(2).text()
-            bsp = tr.children("td").eq(3).text()
-            small = tr.children("td").eq(4).text()
-            date_time = tr.children("td").eq(5).text()
-            _type = 0
-            
-            live_data = {
-                "match_id": match_id,
-                "match_time": match_time,
-                "score": score,
-                "big": big,
-                "small": small,
-                "bsp": bsp,
-                "date_time": date_time,
-                "type": _type 
-            }
-            
-            bs_halt_data.append(live_data)
+                visit_match_history_data.append(visit_match_history_data_tmp)
 
         #要保存的数据
         post_data = {
-            "bs_halt_data": json.dumps(bs_halt_data),
-            "bs_full_data": json.dumps(bs_full_data),
-            "wd_halt_data": json.dumps(wd_halt_data),
-            "wd_full_data": json.dumps(wd_full_data)
+            "match_id": match_id,
+            "home_match_history_data": json.dumps(home_match_history_data),
+            "visit_match_history_data": json.dumps(visit_match_history_data),
+            "history_against_id": json.dumps(history_against_id),
+            "home_lately_match_id": json.dumps(home_lately_match_id),
+            "visit_lately_match_id": json.dumps(visit_lately_match_id)
         }
         
         print(post_data)
         
-        insert_res = requests.post("http://local.ds.football/api/match/live/store", data=post_data)    
+        insert_res = requests.post("http://local.ds.football/api/match/history/store", data=post_data)    
 
         return { match_id: json.loads(insert_res.content) }
             

@@ -153,6 +153,7 @@ class Handler(BaseHandler):
                     "bsp_full": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[-1],
                 }
 
+                #客队历史比赛数据
                 visit_match_history_data = {
                     "match_id": match_id,
                     "team_id": response.doc("h3[class='analysisTeamName blue-color']").children("a").attr("href").split("/")[-1],

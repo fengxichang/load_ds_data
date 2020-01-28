@@ -110,25 +110,26 @@ class Handler(BaseHandler):
         match_id = response.url[8:].split('/')[-1]
 
         divs = response.doc("div[class='small-12 medium-12 columns']").items("div[class='panel panel-l']")
-        print(len(divs))
 
+        
         for div in divs:
+            
             if div.children("div[class='panel-heading']").find("h3").text()=="双方对战历史详情":
 
                 #双方交战历史记录
-                for tr in div.children("tbody").items("tr"):
+                for tr in div.find("tbody").items("tr"):
                     history_against_id.append(tr.children("td").eq(10).children("a").attr("href").split("/")[-1])
 
             elif div.children("div[class='panel-heading']").find("h3").text()=="双方历史比赛统计":
-                
+                print(div.children("div[class='panel-body']").find("#live-filter-bar").html())
                 #比赛历史数据
-                for tr in div.children("div[id='history1']").find("tbody").items("tr"):
-                        #主队最近比赛
-                        home_lately_match_id.append(tr.children("td").eq(11).children("a").attr("href").split("/")[-1])
+                for tr in div.find("#history1").find("tbody").items("tr"):
+                    #主队最近比赛
+                    home_lately_match_id.append(tr.children("td").eq(11).children("a").attr("href").split("/")[-1])
 
-                for tr in div.children("div[id='history2']").find("tbody").items("tr"):
-                        #客队最近比赛
-                        visit_lately_match_id.append(tr.children("td").eq(11).children("a").attr("href").split("/")[-1])
+                for tr in div.find("div[id='history2']").find("tbody").items("tr"):
+                    #客队最近比赛
+                    visit_lately_match_id.append(tr.children("td").eq(11).children("a").attr("href").split("/")[-1])
 
                 tbody = div.children("div[id='history_table']").children("tbody")
 

@@ -107,7 +107,7 @@ class Handler(BaseHandler):
         home_lately_match_id = []
         visit_lately_match_id = []
         
-        c = response.url[8:].split('/')[-1]
+        match_id = response.url[8:].split('/')[-1]
 
         divs = response.doc("div[class='small-12 medium-12 columns']").items("div[class='panel panel-l']")
         print(len(divs))

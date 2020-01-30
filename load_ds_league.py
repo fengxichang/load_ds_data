@@ -11,6 +11,10 @@ import json
 import time
 import random
 import string
+import sys
+
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 def random_agent():
     user_agent_list = [\
@@ -85,9 +89,10 @@ class Handler(BaseHandler):
             for li in response.doc('section[id='+id+']').find('ul[class="dataListCon2"]').items('li'):
                 href = li.find('a').attr('href') 
                 self.crawl(href, callback=self.detail_page, validate_cert=False, headers=gen_headers(), cookies=random_bid())
-            
+                
 
     def detail_page(self, response):
+        
         h1 = response.doc('h1[class="titleL1 BB0"]')
         namestr = h1.text()[3:].split('，')
         
@@ -105,12 +110,6 @@ class Handler(BaseHandler):
             "type": league_type
         }
         
-        #每次请求后随机休眠3-8秒
-        sleep_time = random.randint(3,8)
-        time.sleep(sleep_time)
-        
-        insert_response = requests.post("http://local.ds.football/api/league/store", league_data)
-        
-        league_data.update(status=json.loads(insert_response))
+        insert_response = requests.post("http://ds.football.cn/api/league/store", league_data)
 
-        return league_data
+        return { "league_id":league_id, "result":json.loads(insert_response.content) }

@@ -78,7 +78,7 @@ class Handler(BaseHandler):
 
     
     def index_page(self, response):
-        start = "2019-01-01"
+        start = "2017-01-01"
         end = "2019-12-31"
         
         dateStart = datetime.datetime.strptime(start,"%Y-%m-%d")
@@ -92,15 +92,18 @@ class Handler(BaseHandler):
     def detail_page(self, response):
         result = {}
         data_list = []
+        match_date = datetime.datetime.strptime(response.url[8:].split('/')[-1], "%Y%m%d").strftime('%Y-%m-%d')
         
-        for li in response.doc("div[class='pagination-centered']").children("ul").items("li"):
+        if (not response.doc("div[class='pagination-centered']").children("ul")):
+            data_list.append(response.url)
+        else:
+            for li in response.doc("div[class='pagination-centered']").children("ul").items("li"):
             
-            match_date = datetime.datetime.strptime(response.url[8:].split('/')[-1], "%Y%m%d").strftime('%Y-%m-%d')
-            match_url = li.children("a").attr("href")
+                match_url = li.children("a").attr("href")
+
+                data_list.append(match_url)
             
-            data_list.append(match_url)
-            
-        insert_res = requests.post("http://local.ds.football/api/match/store", data={"url_list":json.dumps(data_list), "date":match_date}) 
+        insert_res = requests.post("http://ds.football.cn/api/match/matchUriStore", data={"url_list":json.dumps(data_list), "date":match_date}) 
            
         return { match_date: json.loads(insert_res.content) }
             

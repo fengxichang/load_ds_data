@@ -73,8 +73,6 @@ def getCookie():
         "halfbt_daxiao": "1",
         "halfbt_rangfen": "1",
         "race_id": "561883",
-        #"Hm_lvt_a68414d98536efc52eeb879f984d8923": "1579348840,1579402940",
-        #"Hm_lpvt_a68414d98536efc52eeb879f984d8923": "1579403944"
     }
     
 
@@ -106,8 +104,6 @@ class Handler(BaseHandler):
         bs_full_data = []
         wd_halt_data = []
         wd_full_data = []
-        
-        print(response.doc)
         
         match_id = response.url[8:].split('/')[-1]
 
@@ -211,8 +207,6 @@ class Handler(BaseHandler):
             "wd_halt_data": json.dumps(wd_halt_data),
             "wd_full_data": json.dumps(wd_full_data)
         }
-        
-        print(post_data)
         
         insert_res = requests.post("http://local.ds.football/api/match/live/store", data=post_data)    
 

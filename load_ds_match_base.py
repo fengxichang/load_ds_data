@@ -78,21 +78,23 @@ class Handler(BaseHandler):
 
     
     def index_page(self, response):
-        start = "2019-01-01"
-        end = "2019-12-31"
+        uri_list_res = requests.get('http://ds.football.cn/api/match/getMatchUriList')
         
-        dateStart = datetime.datetime.strptime(start,"%Y-%m-%d")
-        dateEnd = datetime.datetime.strptime(end, "%Y-%m-%d")
+        uri_lsit = json.loads(uri_list_res.content)
         
-        while dateStart <= dateEnd:
-            self.crawl("https://www.dszuqiu.com/diary/"+ dateStart.strftime('%Y%m%d'), callback=self.detail_page, validate_cert=False, headers=get_headers(), cookies=random_bid())
-            dateStart += datetime.timedelta(days=1)
+        for uri in uri_lsit:
+            self.crawl(uri, callback=self.detail_page, validate_cert=False, headers=get_headers(), cookies=random_bid())
+            
   
     @config(priority=2)
     def detail_page(self, response):
         result = {}
         data_list = []
         for tr in response.doc("div[id='diary_info']").find("table[class='live-list-table diary-table'] > tbody").items("tr"):
+            
+            if not tr.children("td").eq(8).find("div[class='statusListWrapper']").children("a").attr("href"):
+                continue
+            
             match_id = tr.children("td").eq(8).find("div[class='statusListWrapper']").children("a").attr("href").split("/")[-1]
             league_id = tr.children("td").eq(0).children("a").attr("href").split("/")[-1]
             home_id = tr.children("td").eq(3).children("a").attr("href").split("/")[-1]
@@ -100,9 +102,15 @@ class Handler(BaseHandler):
             score_full = tr.children("td").eq(4).text()
             score_halt = tr.children("td").eq(6).text()
             let_ball = tr.children("td").eq(7).children("a").text().split("/")[0]
+            if tr.children("td").eq(7).children("a").text()=="-":
+                continue
             bsp = tr.children("td").eq(7).children("a").text().split("/")[1]
-            match_date = datetime.datetime.strptime(response.url[8:].split('/')[-1], "%Y%m%d").strftime('%Y-%m-%d')
             
+            if len(response.url[8:].split('/'))==3:
+                match_date = datetime.datetime.strptime(response.url[8:].split('/')[-1], "%Y%m%d").strftime('%Y-%m-%d')
+            elif len(response.url[8:].split('/'))==4:
+                match_date = datetime.datetime.strptime(response.url[8:].split('/')[-2], "%Y%m%d").strftime('%Y-%m-%d')     
+                     
             match_data = {
                 "match_id": match_id,
                 "league_id": league_id,
@@ -117,7 +125,7 @@ class Handler(BaseHandler):
             
             data_list.append(match_data)
         
-        insert_res = requests.post("http://local.ds.football/api/match/store", data={"data":json.dumps(data_list)}) 
+        insert_res = requests.post("http://ds.football.cn/api/match/store", data={"data":json.dumps(data_list)}) 
            
         return { match_date: json.loads(insert_res.content) }
             

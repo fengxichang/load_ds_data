@@ -9,6 +9,10 @@ import random
 import string
 import requests
 import json
+import sys
+
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 def random_agent():
     user_agent_list = [\
@@ -90,16 +94,55 @@ class Handler(BaseHandler):
 
     
     def index_page(self, response):
-        start = "2019-01-01"
-        end = "2019-01-01"
+        start = "2017-01-01"
+        end = "2017-01-01"
         
         match_list_res = requests.get("http://local.ds.football/api/match/getMatchByDate?startDate="+start+"&endDate="+end)
 
         match_list = json.loads(match_list_res.content)
 
         for match_id in match_list:
-            self.crawl("https://www.dszuqiu.com/race_ss/"+str(match_id), callback=self.detail_page, validate_cert=False, headers=get_headers(), cookies=getCookie())
+            self.crawl("https://www.dszuqiu.com/race_ss/"+str(match_id), callback=self.index_page_js, validate_cert=False, headers=get_headers(), cookies=getCookie())
   
+    def index_page_js(self, response):
+
+        self.crawl_help(self, response, 'tabtypeid1', 'tabid1', 'td8')
+        self.crawl_help(self, response, 'tabtypeid1', 'tabid1', 'td6')
+        self.crawl_help(self, response, 'tabtypeid1', 'tabid1', 'td4')
+        self.crawl_help(self, response, 'tabtypeid1', 'tabid2', 'td8')
+        self.crawl_help(self, response, 'tabtypeid1', 'tabid2', 'td6')
+        self.crawl_help(self, response, 'tabtypeid1', 'tabid2', 'td4')
+        self.crawl_help(self, response, 'tabtypeid1', 'tabid3', 'td8')
+        self.crawl_help(self, response, 'tabtypeid1', 'tabid3', 'td6')
+        self.crawl_help(self, response, 'tabtypeid1', 'tabid3', 'td4')
+        self.crawl_help(self, response, 'tabtypeid1', 'tabid4', 'td8')
+        self.crawl_help(self, response, 'tabtypeid1', 'tabid4', 'td6')
+        self.crawl_help(self, response, 'tabtypeid1', 'tabid4', 'td4')
+        self.crawl_help(self, response, 'tabtypeid1', 'tabid5', 'td8')
+        self.crawl_help(self, response, 'tabtypeid1', 'tabid5', 'td6')
+        self.crawl_help(self, response, 'tabtypeid1', 'tabid5', 'td4')
+        
+        self.crawl_help(self, response, 'tabtypeid2', 'tabid1', 'td8')
+        self.crawl_help(self, response, 'tabtypeid2', 'tabid1', 'td6')
+        self.crawl_help(self, response, 'tabtypeid2', 'tabid1', 'td4')
+        self.crawl_help(self, response, 'tabtypeid2', 'tabid2', 'td8')
+        self.crawl_help(self, response, 'tabtypeid2', 'tabid2', 'td6')
+        self.crawl_help(self, response, 'tabtypeid2', 'tabid2', 'td4')
+        self.crawl_help(self, response, 'tabtypeid2', 'tabid3', 'td8')
+        self.crawl_help(self, response, 'tabtypeid2', 'tabid3', 'td6')
+        self.crawl_help(self, response, 'tabtypeid2', 'tabid3', 'td4')
+        self.crawl_help(self, response, 'tabtypeid2', 'tabid4', 'td8')
+        self.crawl_help(self, response, 'tabtypeid2', 'tabid4', 'td6')
+        self.crawl_help(self, response, 'tabtypeid2', 'tabid4', 'td4')
+        self.crawl_help(self, response, 'tabtypeid2', 'tabid5', 'td8')
+        self.crawl_help(self, response, 'tabtypeid2', 'tabid5', 'td6')
+        self.crawl_help(self, response, 'tabtypeid2', 'tabid5', 'td4')
+
+
+    def crawl_help(self, response, type1, type2, type3):
+        self.crawl(response.url, callback=self.detail_page, validate_cert=False, headers=get_headers(), cookies=getCookie(),fetch_type='js', js_script="""
+                    function() {document.querySelectorAll("a[id='"""+type1+"""']").click();document.querySelectorAll("a[id='"""+type2+"""']").click();document.querySelectorAll("a[id='"""+type3+"""']").click();}""")
+
     @config(priority=2)
     def detail_page(self, response):
         match_history_data = []
@@ -113,69 +156,75 @@ class Handler(BaseHandler):
 
         
         for div in divs:
-            
+
             if div.children("div[class='panel-heading']").find("h3").text()=="双方对战历史详情":
 
-                #双方交战历史记录
-                for tr in div.find("tbody").items("tr"):
-                    history_against_id.append(tr.children("td").eq(10).children("a").attr("href").split("/")[-1])
+                if div.find("tbody"):
+                    #双方交战历史记录
+                    for tr in div.find("tbody").items("tr"):
+                        history_against_id.append(tr.children("td").eq(10).children("a").attr("href").split("/")[-1])
 
             elif div.children("div[class='panel-heading']").find("h3").text()=="双方历史比赛统计":
-                print(div.children("div[class='panel-body']").find("#live-filter-bar").html())
-                #比赛历史数据
-                for tr in div.find("#history1").find("tbody").items("tr"):
-                    #主队最近比赛
-                    home_lately_match_id.append(tr.children("td").eq(11).children("a").attr("href").split("/")[-1])
+                
+                if div.find("#history1").find("tbody"):
+                    #比赛历史数据
+                    for tr in div.find("#history1").find("tbody").items("tr"):
+                        #主队最近比赛
+                        home_lately_match_id.append(tr.children("td").eq(11).children("a").attr("href").split("/")[-1])
 
-                for tr in div.find("div[id='history2']").find("tbody").items("tr"):
-                    #客队最近比赛
-                    visit_lately_match_id.append(tr.children("td").eq(11).children("a").attr("href").split("/")[-1])
+                if div.find("div[id='history2']").find("tbody"):
+                    for tr in div.find("div[id='history2']").find("tbody").items("tr"):
+                        #客队最近比赛
+                        visit_lately_match_id.append(tr.children("td").eq(11).children("a").attr("href").split("/")[-1])
 
-                tbody = div.children("div[id='history_table']").children("tbody")
+                tbody = div.find("div[id='history_table']").find("tbody")
 
-                #主队历史比赛数据
-                home_match_history_data_tmp = {
-                    "match_id": match_id,
-                    "team_id": response.doc("h3[class='analysisTeamName red-color']").children("a").attr("href").split("/")[-1],
-                    "lately": 6,
-                    "type": 1,
-                    "only_this_league": 0,
-                    "goal_halt": tbody.children("tr").eq(0).children("td").eq(2).text().split("/")[0],
-                    "goal_full": tbody.children("tr").eq(0).children("td").eq(2).text().split("/")[-1],
-                    "concede_half": tbody.children("tr").eq(0).children("td").eq(3).text().split("/")[0],
-                    "concede_full": tbody.children("tr").eq(0).children("td").eq(3).text().split("/")[-1],
-                    "big_rate": tbody.children("tr").eq(0).children("td").eq(4).text(),
-                    "win_position_rate": tbody.children("tr").eq(0).children("td").eq(5).text(),
-                    "win_rate": tbody.children("tr").eq(0).children("td").eq(6).text(),
-                    "goal_difference": tbody.children("tr").eq(0).children("td").eq(7).text(),
-                    "total_goal": tbody.children("tr").eq(1).children("td").eq(1).text(),
-                    "bsp_half": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[0],
-                    "bsp_full": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[-1],
-                }
+                if tbody:
+                    #主队历史比赛数据
+                    home_match_history_data_tmp = {
+                        "match_id": match_id,
+                        "team_id": response.doc("h3[class='analysisTeamName red-color']").children("a").attr("href").split("/")[-1],
+                        "lately": 6,
+                        "type": 1,
+                        "only_this_league": 0,
+                        "goal_halt": tbody.children("tr").eq(0).children("td").eq(2).text().split("/")[0],
+                        "goal_full": tbody.children("tr").eq(0).children("td").eq(2).text().split("/")[-1],
+                        "concede_half": tbody.children("tr").eq(0).children("td").eq(3).text().split("/")[0],
+                        "concede_full": tbody.children("tr").eq(0).children("td").eq(3).text().split("/")[-1],
+                        "big_rate": tbody.children("tr").eq(0).children("td").eq(4).text(),
+                        "win_position_rate": tbody.children("tr").eq(0).children("td").eq(5).text(),
+                        "win_rate": tbody.children("tr").eq(0).children("td").eq(6).text(),
+                        "goal_difference": tbody.children("tr").eq(0).children("td").eq(7).text(),
+                        "total_goal": tbody.children("tr").eq(1).children("td").eq(1).text(),
+                        "bsp_half": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[0],
+                        "bsp_full": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[-1],
+                    }
 
-                match_history_data.append(home_match_history_data_tmp)
+                    match_history_data.append(home_match_history_data_tmp)
 
-                #客队历史比赛数据
-                visit_match_history_data_tmp = {
-                    "match_id": match_id,
-                    "team_id": response.doc("h3[class='analysisTeamName blue-color']").children("a").attr("href").split("/")[-1],
-                    "lately": 6,
-                    "type": 0,
-                    "only_this_league": 0,
-                    "goal_halt": tbody.children("tr").eq(2).children("td").eq(2).text().split("/")[0],
-                    "goal_full": tbody.children("tr").eq(2).children("td").eq(2).text().split("/")[-1],
-                    "concede_half": tbody.children("tr").eq(2).children("td").eq(3).text().split("/")[0],
-                    "concede_full": tbody.children("tr").eq(2).children("td").eq(3).text().split("/")[-1],
-                    "big_rate": tbody.children("tr").eq(2).children("td").eq(4).text(),
-                    "win_position_rate": tbody.children("tr").eq(2).children("td").eq(5).text(),
-                    "win_rate": tbody.children("tr").eq(2).children("td").eq(6).text(),
-                    "goal_difference": tbody.children("tr").eq(2).children("td").eq(7).text(),
-                    "total_goal": tbody.children("tr").eq(3).children("td").eq(1).text(),
-                    "bsp_half": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[0],
-                    "bsp_full": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[-1],
-                }
+                    #客队历史比赛数据
+                    visit_match_history_data_tmp = {
+                        "match_id": match_id,
+                        "team_id": response.doc("h3[class='analysisTeamName blue-color']").children("a").attr("href").split("/")[-1],
+                        "lately": 6,
+                        "type": 0,
+                        "only_this_league": 0,
+                        "goal_halt": tbody.children("tr").eq(2).children("td").eq(2).text().split("/")[0],
+                        "goal_full": tbody.children("tr").eq(2).children("td").eq(2).text().split("/")[-1],
+                        "concede_half": tbody.children("tr").eq(2).children("td").eq(3).text().split("/")[0],
+                        "concede_full": tbody.children("tr").eq(2).children("td").eq(3).text().split("/")[-1],
+                        "big_rate": tbody.children("tr").eq(2).children("td").eq(4).text(),
+                        "win_position_rate": tbody.children("tr").eq(2).children("td").eq(5).text(),
+                        "win_rate": tbody.children("tr").eq(2).children("td").eq(6).text(),
+                        "goal_difference": tbody.children("tr").eq(2).children("td").eq(7).text(),
+                        "total_goal": tbody.children("tr").eq(3).children("td").eq(1).text(),
+                        "bsp_half": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[0],
+                        "bsp_full": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[-1],
+                    }
 
-                match_history_data.append(visit_match_history_data_tmp)
+                    match_history_data.append(visit_match_history_data_tmp)
+                else:
+                    continue    
 
         #要保存的数据
         post_data = {

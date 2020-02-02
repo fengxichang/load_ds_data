@@ -102,46 +102,10 @@ class Handler(BaseHandler):
         match_list = json.loads(match_list_res.content)
 
         for match_id in match_list:
-            self.crawl("https://www.dszuqiu.com/race_ss/"+str(match_id), callback=self.index_page_js, validate_cert=False, headers=get_headers(), cookies=getCookie())
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#621', 'function() {set_num(6);set_type(2);select(1);}')
   
-    def index_page_js(self, response):
-
-        self.crawl_help(self, response, 'tabtypeid1', 'tabid1', 'td8')
-        self.crawl_help(self, response, 'tabtypeid1', 'tabid1', 'td6')
-        self.crawl_help(self, response, 'tabtypeid1', 'tabid1', 'td4')
-        self.crawl_help(self, response, 'tabtypeid1', 'tabid2', 'td8')
-        self.crawl_help(self, response, 'tabtypeid1', 'tabid2', 'td6')
-        self.crawl_help(self, response, 'tabtypeid1', 'tabid2', 'td4')
-        self.crawl_help(self, response, 'tabtypeid1', 'tabid3', 'td8')
-        self.crawl_help(self, response, 'tabtypeid1', 'tabid3', 'td6')
-        self.crawl_help(self, response, 'tabtypeid1', 'tabid3', 'td4')
-        self.crawl_help(self, response, 'tabtypeid1', 'tabid4', 'td8')
-        self.crawl_help(self, response, 'tabtypeid1', 'tabid4', 'td6')
-        self.crawl_help(self, response, 'tabtypeid1', 'tabid4', 'td4')
-        self.crawl_help(self, response, 'tabtypeid1', 'tabid5', 'td8')
-        self.crawl_help(self, response, 'tabtypeid1', 'tabid5', 'td6')
-        self.crawl_help(self, response, 'tabtypeid1', 'tabid5', 'td4')
-        
-        self.crawl_help(self, response, 'tabtypeid2', 'tabid1', 'td8')
-        self.crawl_help(self, response, 'tabtypeid2', 'tabid1', 'td6')
-        self.crawl_help(self, response, 'tabtypeid2', 'tabid1', 'td4')
-        self.crawl_help(self, response, 'tabtypeid2', 'tabid2', 'td8')
-        self.crawl_help(self, response, 'tabtypeid2', 'tabid2', 'td6')
-        self.crawl_help(self, response, 'tabtypeid2', 'tabid2', 'td4')
-        self.crawl_help(self, response, 'tabtypeid2', 'tabid3', 'td8')
-        self.crawl_help(self, response, 'tabtypeid2', 'tabid3', 'td6')
-        self.crawl_help(self, response, 'tabtypeid2', 'tabid3', 'td4')
-        self.crawl_help(self, response, 'tabtypeid2', 'tabid4', 'td8')
-        self.crawl_help(self, response, 'tabtypeid2', 'tabid4', 'td6')
-        self.crawl_help(self, response, 'tabtypeid2', 'tabid4', 'td4')
-        self.crawl_help(self, response, 'tabtypeid2', 'tabid5', 'td8')
-        self.crawl_help(self, response, 'tabtypeid2', 'tabid5', 'td6')
-        self.crawl_help(self, response, 'tabtypeid2', 'tabid5', 'td4')
-
-
-    def crawl_help(self, response, type1, type2, type3):
-        self.crawl(response.url, callback=self.detail_page, validate_cert=False, headers=get_headers(), cookies=getCookie(),fetch_type='js', js_script="""
-                    function() {document.querySelectorAll("a[id='"""+type1+"""']").click();document.querySelectorAll("a[id='"""+type2+"""']").click();document.querySelectorAll("a[id='"""+type3+"""']").click();}""")
+    def crawl_help(self, url, js_script_str):
+        self.crawl(response.url, callback=self.detail_page, validate_cert=False, headers=get_headers(), cookies=getCookie(),fetch_type='js', js_script=js_script_str)
 
     @config(priority=2)
     def detail_page(self, response):

@@ -102,10 +102,11 @@ class Handler(BaseHandler):
         match_list = json.loads(match_list_res.content)
 
         for match_id in match_list:
-            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#621', 'function() {set_num(6);set_type(2);select(1);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#622', 'function() {set_num(6);select(2);set_type(2);}')
+            #self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#812', 'function() {set_num(8);select(1);set_type(2);}')
   
     def crawl_help(self, url, js_script_str):
-        self.crawl(response.url, callback=self.detail_page, validate_cert=False, headers=get_headers(), cookies=getCookie(),fetch_type='js', js_script=js_script_str)
+        self.crawl(url, callback=self.detail_page, validate_cert=False, headers=get_headers(), cookies=getCookie(),fetch_type='js', js_script=js_script_str)
 
     @config(priority=2)
     def detail_page(self, response):
@@ -162,6 +163,7 @@ class Handler(BaseHandler):
                         "total_goal": tbody.children("tr").eq(1).children("td").eq(1).text(),
                         "bsp_half": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[0],
                         "bsp_full": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[-1],
+                        "lately_match_id": ".".join(home_lately_match_id) 
                     }
 
                     match_history_data.append(home_match_history_data_tmp)
@@ -184,6 +186,7 @@ class Handler(BaseHandler):
                         "total_goal": tbody.children("tr").eq(3).children("td").eq(1).text(),
                         "bsp_half": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[0],
                         "bsp_full": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[-1],
+                        "lately_match_id": ".".join(visit_lately_match_id) 
                     }
 
                     match_history_data.append(visit_match_history_data_tmp)
@@ -195,8 +198,6 @@ class Handler(BaseHandler):
             "match_id": match_id,
             "match_history_data": json.dumps(match_history_data),
             "history_against_id": json.dumps(history_against_id),
-            "home_lately_match_id": json.dumps(home_lately_match_id),
-            "visit_lately_match_id": json.dumps(visit_lately_match_id)
         }
         
         print(post_data)

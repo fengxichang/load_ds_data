@@ -107,7 +107,7 @@ class Handler(BaseHandler):
             try:
                 time = int(match['status'])
                 
-                if time=30:
+                if time==30:
                     is_star = self.is_star(match)
                     if is_star:
                         star_match_list.append(match)

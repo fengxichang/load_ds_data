@@ -87,28 +87,31 @@ class Handler(BaseHandler):
         'proxy':"HZ66310Z7I39EY4P:1CCD8C4876D5635C@http-pro.abuyun.com:9010"
     }
     
-    @every(minutes=1, seconds=0)
+    #@every(minutes=1)
+    @config(age=60)
     def on_start(self):
-        self.crawl('https://live.dszuqiu.com/', callback=self.index_page, validate_cert=False, headers=get_headers(), cookies=random_bid())
+        self.crawl('https://live.dszuqiu.com/', callback=self.index_page,age=60,auto_recrawl=True, validate_cert=False, headers=get_headers(), cookies=random_bid())
 
-    
+    @config(age=60)
     def index_page(self, response):
        
-         self.crawl("https://live.dszuqiu.com/ajax/score/data?mt=1&nr=1&corner=1", cookies=getCookie(), callback=self.detail_page, validate_cert=False, headers=get_headers(), cookies=random_bid())
+         self.crawl("https://live.dszuqiu.com/ajax/score/data?mt=0&nr=1", cookies=getCookie(), callback=self.detail_page,age=60,auto_recrawl=True, validate_cert=False, headers=get_headers())
         
             
 
     @config(priority=2)
     def detail_page(self, response):
         star_match_list = []
+        
         for match in json.loads(response.content)['rs']:
             try:
                 time = int(match['status'])
-                if time==30:
-                    is_star = self.is_star()
+                
+                if time=30:
+                    is_star = self.is_star(match)
                     if is_star:
                         star_match_list.append(match)
-                        requests.get("https://live.dszuqiu.com/ajax/user/fav/"+match["id"])
+                        requests.get("https://live.dszuqiu.com/ajax/user/fav/"+match["id"],cookies=getCookie(), verify=False, headers=get_headers())
             except ValueError:
                 pass
             
@@ -118,6 +121,7 @@ class Handler(BaseHandler):
     
     
     def is_star(self, match):
+        
         if float(match['sd']['f']['hdx']) <= 3 and float(match["h_ld"]["dx"][0]["gdxsp"]) <= 1.5 and float(match["h_ld"]["dx"][0]["hdxsp"]) >= 2.5:
             return True
         else:

@@ -103,7 +103,35 @@ class Handler(BaseHandler):
 
         for match_id in match_list:
             self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#622', 'function() {set_num(6);select(2);set_type(2);}')
-            #self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#812', 'function() {set_num(8);select(1);set_type(2);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#612', 'function() {set_num(6);select(1);set_type(2);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#632', 'function() {set_num(6);select(3);set_type(2);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#642', 'function() {set_num(6);select(4);set_type(2);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#652', 'function() {set_num(6);select(5);set_type(2);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#822', 'function() {set_num(8);select(2);set_type(2);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#812', 'function() {set_num(8);select(1);set_type(2);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#832', 'function() {set_num(8);select(3);set_type(2);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#842', 'function() {set_num(8);select(4);set_type(2);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#852', 'function() {set_num(8);select(5);set_type(2);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#422', 'function() {set_num(4);select(2);set_type(2);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#412', 'function() {set_num(4);select(1);set_type(2);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#432', 'function() {set_num(4);select(3);set_type(2);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#442', 'function() {set_num(4);select(4);set_type(2);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#452', 'function() {set_num(4);select(5);set_type(2);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#621', 'function() {set_num(6);select(2);set_type(1);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#611', 'function() {set_num(6);select(1);set_type(1);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#631', 'function() {set_num(6);select(3);set_type(1);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#641', 'function() {set_num(6);select(4);set_type(1);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#651', 'function() {set_num(6);select(5);set_type(1);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#821', 'function() {set_num(8);select(2);set_type(1);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#811', 'function() {set_num(8);select(1);set_type(1);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#831', 'function() {set_num(8);select(3);set_type(1);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#841', 'function() {set_num(8);select(4);set_type(1);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#851', 'function() {set_num(8);select(5);set_type(1);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#421', 'function() {set_num(4);select(2);set_type(1);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#411', 'function() {set_num(4);select(1);set_type(1);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#431', 'function() {set_num(4);select(3);set_type(1);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#441', 'function() {set_num(4);select(4);set_type(1);}')
+            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#451', 'function() {set_num(4);select(5);set_type(1);}')
   
     def crawl_help(self, url, js_script_str):
         self.crawl(url, callback=self.detail_page, validate_cert=False, headers=get_headers(), cookies=getCookie(),fetch_type='js', js_script=js_script_str)
@@ -145,51 +173,77 @@ class Handler(BaseHandler):
                 tbody = div.find("div[id='history_table']").find("tbody")
 
                 if tbody:
-                    #主队历史比赛数据
-                    home_match_history_data_tmp = {
-                        "match_id": match_id,
-                        "team_id": response.doc("h3[class='analysisTeamName red-color']").children("a").attr("href").split("/")[-1],
-                        "lately": 6,
-                        "type": 1,
-                        "only_this_league": 0,
-                        "goal_halt": tbody.children("tr").eq(0).children("td").eq(2).text().split("/")[0],
-                        "goal_full": tbody.children("tr").eq(0).children("td").eq(2).text().split("/")[-1],
-                        "concede_half": tbody.children("tr").eq(0).children("td").eq(3).text().split("/")[0],
-                        "concede_full": tbody.children("tr").eq(0).children("td").eq(3).text().split("/")[-1],
-                        "big_rate": tbody.children("tr").eq(0).children("td").eq(4).text(),
-                        "win_position_rate": tbody.children("tr").eq(0).children("td").eq(5).text(),
-                        "win_rate": tbody.children("tr").eq(0).children("td").eq(6).text(),
-                        "goal_difference": tbody.children("tr").eq(0).children("td").eq(7).text(),
-                        "total_goal": tbody.children("tr").eq(1).children("td").eq(1).text(),
-                        "bsp_half": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[0],
-                        "bsp_full": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[-1],
-                        "lately_match_id": ".".join(home_lately_match_id) 
-                    }
+                    if tbody.children("tr").eq(0).children("td").eq(0).find("a").attr("class")=="red-color":
+                        #主队历史比赛数据
+                        home_match_history_data_tmp = {
+                            "match_id": match_id,
+                            "team_id": response.doc("h3[class='analysisTeamName red-color']").children("a").attr("href").split("/")[-1],
+                            "lately": 6,
+                            "type": 1,
+                            "only_this_league": 0,
+                            "goal_halt": tbody.children("tr").eq(0).children("td").eq(2).text().split("/")[0],
+                            "goal_full": tbody.children("tr").eq(0).children("td").eq(2).text().split("/")[-1],
+                            "concede_half": tbody.children("tr").eq(0).children("td").eq(3).text().split("/")[0],
+                            "concede_full": tbody.children("tr").eq(0).children("td").eq(3).text().split("/")[-1],
+                            "big_rate": tbody.children("tr").eq(0).children("td").eq(4).text(),
+                            "win_position_rate": tbody.children("tr").eq(0).children("td").eq(5).text(),
+                            "win_rate": tbody.children("tr").eq(0).children("td").eq(6).text(),
+                            "goal_difference": tbody.children("tr").eq(0).children("td").eq(7).text(),
+                            "total_goal": tbody.children("tr").eq(1).children("td").eq(1).text(),
+                            "bsp_half": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[0],
+                            "bsp_full": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[-1],
+                            "lately_match_id": ".".join(home_lately_match_id) 
+                        }
 
-                    match_history_data.append(home_match_history_data_tmp)
+                        match_history_data.append(home_match_history_data_tmp)
+                        
+                    elif tbody.children("tr").eq(0).children("td").eq(0).find("a").attr("class")=="blue-color":
+                        #客队历史比赛数据
+                        visit_match_history_data_tmp = {
+                            "match_id": match_id,
+                            "team_id": response.doc("h3[class='analysisTeamName blue-color']").children("a").attr("href").split("/")[-1],
+                            "lately": 6,
+                            "type": 0,
+                            "only_this_league": 0,
+                            "goal_halt": tbody.children("tr").eq(0).children("td").eq(2).text().split("/")[0],
+                            "goal_full": tbody.children("tr").eq(0).children("td").eq(2).text().split("/")[-1],
+                            "concede_half": tbody.children("tr").eq(0).children("td").eq(3).text().split("/")[0],
+                            "concede_full": tbody.children("tr").eq(0).children("td").eq(3).text().split("/")[-1],
+                            "big_rate": tbody.children("tr").eq(0).children("td").eq(4).text(),
+                            "win_position_rate": tbody.children("tr").eq(0).children("td").eq(5).text(),
+                            "win_rate": tbody.children("tr").eq(0).children("td").eq(6).text(),
+                            "goal_difference": tbody.children("tr").eq(0).children("td").eq(7).text(),
+                            "total_goal": tbody.children("tr").eq(1).children("td").eq(1).text(),
+                            "bsp_half": None,
+                            "bsp_full": None,
+                            "lately_match_id": ".".join(visit_lately_match_id) 
+                        }
 
-                    #客队历史比赛数据
-                    visit_match_history_data_tmp = {
-                        "match_id": match_id,
-                        "team_id": response.doc("h3[class='analysisTeamName blue-color']").children("a").attr("href").split("/")[-1],
-                        "lately": 6,
-                        "type": 0,
-                        "only_this_league": 0,
-                        "goal_halt": tbody.children("tr").eq(2).children("td").eq(2).text().split("/")[0],
-                        "goal_full": tbody.children("tr").eq(2).children("td").eq(2).text().split("/")[-1],
-                        "concede_half": tbody.children("tr").eq(2).children("td").eq(3).text().split("/")[0],
-                        "concede_full": tbody.children("tr").eq(2).children("td").eq(3).text().split("/")[-1],
-                        "big_rate": tbody.children("tr").eq(2).children("td").eq(4).text(),
-                        "win_position_rate": tbody.children("tr").eq(2).children("td").eq(5).text(),
-                        "win_rate": tbody.children("tr").eq(2).children("td").eq(6).text(),
-                        "goal_difference": tbody.children("tr").eq(2).children("td").eq(7).text(),
-                        "total_goal": tbody.children("tr").eq(3).children("td").eq(1).text(),
-                        "bsp_half": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[0],
-                        "bsp_full": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[-1],
-                        "lately_match_id": ".".join(visit_lately_match_id) 
-                    }
+                        match_history_data.append(visit_match_history_data_tmp)
+                        
+                    if tbody.children("tr").eq(2):
+                        #客队历史比赛数据
+                        visit_match_history_data_tmp = {
+                            "match_id": match_id,
+                            "team_id": response.doc("h3[class='analysisTeamName blue-color']").children("a").attr("href").split("/")[-1],
+                            "lately": 6,
+                            "type": 0,
+                            "only_this_league": 0,
+                            "goal_halt": tbody.children("tr").eq(2).children("td").eq(2).text().split("/")[0],
+                            "goal_full": tbody.children("tr").eq(2).children("td").eq(2).text().split("/")[-1],
+                            "concede_half": tbody.children("tr").eq(2).children("td").eq(3).text().split("/")[0],
+                            "concede_full": tbody.children("tr").eq(2).children("td").eq(3).text().split("/")[-1],
+                            "big_rate": tbody.children("tr").eq(2).children("td").eq(4).text(),
+                            "win_position_rate": tbody.children("tr").eq(2).children("td").eq(5).text(),
+                            "win_rate": tbody.children("tr").eq(2).children("td").eq(6).text(),
+                            "goal_difference": tbody.children("tr").eq(2).children("td").eq(7).text(),
+                            "total_goal": tbody.children("tr").eq(3).children("td").eq(1).text(),
+                            "bsp_half": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[0],
+                            "bsp_full": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[-1],
+                            "lately_match_id": ".".join(visit_lately_match_id) 
+                        }
 
-                    match_history_data.append(visit_match_history_data_tmp)
+                        match_history_data.append(visit_match_history_data_tmp)
                 else:
                     continue    
 
@@ -200,7 +254,6 @@ class Handler(BaseHandler):
             "history_against_id": json.dumps(history_against_id),
         }
         
-        print(post_data)
         
         insert_res = requests.post("http://local.ds.football/api/match/history/store", data=post_data)    
 

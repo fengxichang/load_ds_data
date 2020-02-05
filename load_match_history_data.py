@@ -104,34 +104,34 @@ class Handler(BaseHandler):
         for match_id in match_list:
             self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#622', 'function() {set_num(6);select(2);set_type(2);}')
             self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#612', 'function() {set_num(6);select(1);set_type(2);}')
-            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#632', 'function() {set_num(6);select(3);set_type(2);}')
-            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#642', 'function() {set_num(6);select(4);set_type(2);}')
-            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#652', 'function() {set_num(6);select(5);set_type(2);}')
+            # self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#632', 'function() {set_num(6);select(3);set_type(2);}')
+            # self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#642', 'function() {set_num(6);select(4);set_type(2);}')
+            # self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#652', 'function() {set_num(6);select(5);set_type(2);}')
             self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#822', 'function() {set_num(8);select(2);set_type(2);}')
             self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#812', 'function() {set_num(8);select(1);set_type(2);}')
-            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#832', 'function() {set_num(8);select(3);set_type(2);}')
-            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#842', 'function() {set_num(8);select(4);set_type(2);}')
-            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#852', 'function() {set_num(8);select(5);set_type(2);}')
+            # self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#832', 'function() {set_num(8);select(3);set_type(2);}')
+            # self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#842', 'function() {set_num(8);select(4);set_type(2);}')
+            # self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#852', 'function() {set_num(8);select(5);set_type(2);}')
             self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#422', 'function() {set_num(4);select(2);set_type(2);}')
             self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#412', 'function() {set_num(4);select(1);set_type(2);}')
-            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#432', 'function() {set_num(4);select(3);set_type(2);}')
-            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#442', 'function() {set_num(4);select(4);set_type(2);}')
-            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#452', 'function() {set_num(4);select(5);set_type(2);}')
+            # self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#432', 'function() {set_num(4);select(3);set_type(2);}')
+            # self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#442', 'function() {set_num(4);select(4);set_type(2);}')
+            # self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#452', 'function() {set_num(4);select(5);set_type(2);}')
             self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#621', 'function() {set_num(6);select(2);set_type(1);}')
             self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#611', 'function() {set_num(6);select(1);set_type(1);}')
-            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#631', 'function() {set_num(6);select(3);set_type(1);}')
-            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#641', 'function() {set_num(6);select(4);set_type(1);}')
-            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#651', 'function() {set_num(6);select(5);set_type(1);}')
+            # self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#631', 'function() {set_num(6);select(3);set_type(1);}')
+            # self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#641', 'function() {set_num(6);select(4);set_type(1);}')
+            # self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#651', 'function() {set_num(6);select(5);set_type(1);}')
             self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#821', 'function() {set_num(8);select(2);set_type(1);}')
             self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#811', 'function() {set_num(8);select(1);set_type(1);}')
-            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#831', 'function() {set_num(8);select(3);set_type(1);}')
-            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#841', 'function() {set_num(8);select(4);set_type(1);}')
-            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#851', 'function() {set_num(8);select(5);set_type(1);}')
+            # self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#831', 'function() {set_num(8);select(3);set_type(1);}')
+            # self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#841', 'function() {set_num(8);select(4);set_type(1);}')
+            # self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#851', 'function() {set_num(8);select(5);set_type(1);}')
             self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#421', 'function() {set_num(4);select(2);set_type(1);}')
             self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#411', 'function() {set_num(4);select(1);set_type(1);}')
-            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#431', 'function() {set_num(4);select(3);set_type(1);}')
-            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#441', 'function() {set_num(4);select(4);set_type(1);}')
-            self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#451', 'function() {set_num(4);select(5);set_type(1);}')
+            # self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#431', 'function() {set_num(4);select(3);set_type(1);}')
+            # self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#441', 'function() {set_num(4);select(4);set_type(1);}')
+            # self.crawl_help("https://www.dszuqiu.com/race_ss/"+str(match_id)+'#451', 'function() {set_num(4);select(5);set_type(1);}')
   
     def crawl_help(self, url, js_script_str):
         self.crawl(url, callback=self.detail_page, validate_cert=False, headers=get_headers(), cookies=getCookie(),fetch_type='js', js_script=js_script_str)
@@ -144,6 +144,7 @@ class Handler(BaseHandler):
         visit_lately_match_id = []
         
         match_id = response.url[8:].split('/')[-1]
+        cat = match_id.split('#')[-1]
 
         divs = response.doc("div[class='small-12 medium-12 columns']").items("div[class='panel panel-l']")
 
@@ -178,9 +179,9 @@ class Handler(BaseHandler):
                         home_match_history_data_tmp = {
                             "match_id": match_id,
                             "team_id": response.doc("h3[class='analysisTeamName red-color']").children("a").attr("href").split("/")[-1],
-                            "lately": 6,
-                            "type": 1,
-                            "only_this_league": 0,
+                            "lately": cat[0:1],
+                            "type": cat[1:2],
+                            "only_this_league": cat[2:3],
                             "goal_halt": tbody.children("tr").eq(0).children("td").eq(2).text().split("/")[0],
                             "goal_full": tbody.children("tr").eq(0).children("td").eq(2).text().split("/")[-1],
                             "concede_half": tbody.children("tr").eq(0).children("td").eq(3).text().split("/")[0],
@@ -192,7 +193,8 @@ class Handler(BaseHandler):
                             "total_goal": tbody.children("tr").eq(1).children("td").eq(1).text(),
                             "bsp_half": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[0],
                             "bsp_full": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[-1],
-                            "lately_match_id": ".".join(home_lately_match_id) 
+                            "lately_match_id": ".".join(home_lately_match_id),
+                            "is_home": 1
                         }
 
                         match_history_data.append(home_match_history_data_tmp)
@@ -202,9 +204,9 @@ class Handler(BaseHandler):
                         visit_match_history_data_tmp = {
                             "match_id": match_id,
                             "team_id": response.doc("h3[class='analysisTeamName blue-color']").children("a").attr("href").split("/")[-1],
-                            "lately": 6,
-                            "type": 0,
-                            "only_this_league": 0,
+                            "lately": cat[0:1],
+                            "type": cat[1:2],
+                            "only_this_league": cat[2:3],
                             "goal_halt": tbody.children("tr").eq(0).children("td").eq(2).text().split("/")[0],
                             "goal_full": tbody.children("tr").eq(0).children("td").eq(2).text().split("/")[-1],
                             "concede_half": tbody.children("tr").eq(0).children("td").eq(3).text().split("/")[0],
@@ -216,7 +218,8 @@ class Handler(BaseHandler):
                             "total_goal": tbody.children("tr").eq(1).children("td").eq(1).text(),
                             "bsp_half": None,
                             "bsp_full": None,
-                            "lately_match_id": ".".join(visit_lately_match_id) 
+                            "lately_match_id": ".".join(visit_lately_match_id),
+                            "is_home": 0
                         }
 
                         match_history_data.append(visit_match_history_data_tmp)
@@ -226,9 +229,9 @@ class Handler(BaseHandler):
                         visit_match_history_data_tmp = {
                             "match_id": match_id,
                             "team_id": response.doc("h3[class='analysisTeamName blue-color']").children("a").attr("href").split("/")[-1],
-                            "lately": 6,
-                            "type": 0,
-                            "only_this_league": 0,
+                            "lately": cat[0:1],
+                            "type": cat[1:2],
+                            "only_this_league": cat[2:3],
                             "goal_halt": tbody.children("tr").eq(2).children("td").eq(2).text().split("/")[0],
                             "goal_full": tbody.children("tr").eq(2).children("td").eq(2).text().split("/")[-1],
                             "concede_half": tbody.children("tr").eq(2).children("td").eq(3).text().split("/")[0],
@@ -240,7 +243,8 @@ class Handler(BaseHandler):
                             "total_goal": tbody.children("tr").eq(3).children("td").eq(1).text(),
                             "bsp_half": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[0],
                             "bsp_full": tbody.children("tr").eq(5).children("td").eq(1).text().split("/")[-1],
-                            "lately_match_id": ".".join(visit_lately_match_id) 
+                            "lately_match_id": ".".join(visit_lately_match_id),
+                            "is_home": 0
                         }
 
                         match_history_data.append(visit_match_history_data_tmp)
@@ -250,6 +254,9 @@ class Handler(BaseHandler):
         #要保存的数据
         post_data = {
             "match_id": match_id,
+            "lately": cat[0:1],
+            "type": cat[1:2],
+            "only_this_league": cat[2:3],
             "match_history_data": json.dumps(match_history_data),
             "history_against_id": json.dumps(history_against_id),
         }
